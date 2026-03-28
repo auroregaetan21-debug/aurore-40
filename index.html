@@ -1,0 +1,416 @@
+﻿<!DOCTYPE html>
+<html lang="fr" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Les 40 ans d'Aurore - L'Invitation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #faf9f6; 
+            color: #3f3f46; 
+        }
+        h1, h2, h3, .font-display {
+            font-family: Georgia, serif;
+        }
+        
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 400px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 350px;
+        }
+
+
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.5);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+        }
+
+
+        .btn-gradient {
+            background: linear-gradient(135deg, #f59e0b 0%, #ec4899 100%);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+
+        .btn-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px -5px rgba(236, 72, 153, 0.4);
+        }
+
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #faf9f6; 
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #d4d4d8; 
+            border-radius: 4px;
+        }
+    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            light: '#fde68a',
+                            DEFAULT: '#f59e0b',
+                            dark: '#d97706',
+                            accent: '#ec4899',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="antialiased relative">
+
+
+    <!-- Chosen Palette: Warm Neutrals & Festive Amber/Pink -->
+    <!-- Application Structure Plan: 
+         1. Hero: Countdown and welcome.
+         2. Concept: Visual vibe chart.
+         3. Infos: Grid for logistics.
+         4. RSVP: Detailed list of requirements + external link to Google Forms. -->
+    <!-- Visualization & Content Choices: 
+         - Vibe Chart: Doughnut chart for party breakdown.
+         - RSVP List: Visual icons for form sections. -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+
+
+    <nav class="fixed top-0 w-full z-50 glass-panel border-b border-stone-200/50">
+        <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="font-display font-bold text-xl text-brand-dark tracking-wide">✨ AURORE 40 ✨</div>
+                <div class="hidden sm:flex space-x-8">
+                    <a href="#concept" class="text-stone-600 hover:text-brand-accent transition-colors">Le Concept</a>
+                    <a href="#infos" class="text-stone-600 hover:text-brand-accent transition-colors">Infos Pratiques</a>
+                    <a href="#rsvp" class="bg-brand text-white px-4 py-2 rounded-full font-medium hover:bg-brand-dark transition-colors shadow-md">S'inscrire</a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+    <section id="hero" class="pt-32 pb-20 px-4 min-h-[80vh] flex flex-col items-center justify-center text-center relative overflow-hidden">
+        <div class="absolute inset-0 z-0 opacity-10 pointer-events-none" style="background-image: radial-gradient(#ec4899 2px, transparent 2px); background-size: 30px 30px;"></div>
+        
+        <div class="z-10 max-w-3xl mx-auto">
+            <span class="inline-block py-1 px-3 rounded-full bg-brand-light/50 text-brand-dark text-sm font-semibold tracking-wider mb-6 uppercase">Le cap est là !</span>
+            <h1 class="text-5xl md:text-7xl font-bold text-stone-800 mb-6 leading-tight">
+                Aurore fête ses <span class="text-transparent bg-clip-text bg-gradient-to-r from-brand to-brand-accent">40 ans</span> 🥳
+            </h1>
+            <p class="text-xl text-stone-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Rejoignez-nous pour un week-end hors du temps à Prêles. Pas d'horaires imposés, juste le plaisir d'être ensemble
+            </p>
+            
+            <a href="#rsvp" class="inline-block px-8 py-4 bg-stone-800 text-white rounded-full text-lg font-medium hover:bg-brand-accent transition-all duration-300 shadow-xl transform hover:-translate-y-1">
+                Accéder à l'inscription 👇
+            </a>
+            <p class="text-xl text-stone-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+            </p>
+            <div class="mt-16 glass-panel rounded-2xl p-6 inline-block">
+                <p class="text-sm text-stone-500 uppercase tracking-widest mb-4 font-semibold">Le compte à rebours est lancé</p>
+                <div class="flex gap-4 md:gap-8 justify-center text-center" id="countdown"></div>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="concept" class="py-20 px-4 bg-white/50">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold font-display text-stone-800 mb-4">💡 Concept week-end "portes ouvertes" 💡</h2>
+                <p class="text-lg text-stone-600 max-w-2xl mx-auto">tu viens quand tu veux, tu restes autant que tu le souhaites !</p>
+            </div>
+
+
+        </div>
+    </section>
+
+
+    <section id="infos" class="py-20 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold font-display text-stone-800 mb-4">Infos Pratiques 🗺️</h2>
+            </div>
+
+
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="glass-panel p-8 rounded-3xl text-center hover:-translate-y-2 transition-transform">
+                    <div class="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center text-2xl mx-auto mb-6">🗓️</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">Quand ?</h3>
+                    <p class="text-stone-600">Samedi 9 mai dès 12h<br>au dimanche 10 mai 17h</p>
+                </div>
+
+
+                <div class="glass-panel p-8 rounded-3xl text-center border-2 border-brand/20">
+                    <div class="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center text-2xl mx-auto mb-6">📍</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">Où ?</h3>
+    
+                    <a href="https://www.google.com/maps/search/?api=1&query=Basler+Stiftung+für+Ferienkolonien+Vue+des+Alpes+25+2515+Prêles" 
+       target="_blank" 
+       class="hover:opacity-75 transition-opacity">
+                    <p class="text-stone-800 font-bold">Prêles, Jura-Bernois 🌲</p>
+                    <p class="text-stone-500 text-sm">Basler Stiftung für Ferienkolonien, Vue des Alpes 25, 2515 Prêles</p>
+                    </a>
+            <p class="text-xl text-stone-600 mb-10 max-w-2xl mx-auto leading-relaxed">
+            </p>
+                        <a href="https://www.google.com/maps/dir/?api=1&destination=Basler+Stiftung+f%C3%BCr+Ferienkolonien+Vue+des+Alpes+25+2515+Pr%C3%AAles" 
+       target="_blank" 
+       class="inline-block bg-brand text-white px-8 py-3 rounded-full font-bold hover:bg-brand-dark transition-all shadow-lg hover:shadow-brand/20">
+        🚗 Calculer mon trajet
+    </a>
+                </div>
+
+
+
+
+                <div class="glass-panel p-8 rounded-3xl text-center">
+                    <div class="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center text-2xl mx-auto mb-6">😴</div>
+                    <h3 class="text-xl font-bold text-stone-800 mb-4">Dormir sur place</h3>
+                    <p class="text-stone-600">Pour profiter de la fête sans limite, des lits en chambres sont disponibles sur place.<br><span class="text-brand-accent font-bold text-xs">À RÉSERVER DANS LE FORMULAIRE</span></p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+    <!-- Programme & Repas -->
+    <section id="concept" class="py-20 px-4 bg-white/50">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold font-display text-stone-800 mb-4">Les festivités & repas</h2>
+                <p class="text-lg text-stone-600 max-w-2xl mx-auto">Pour l'organisation, merci de préciser votre présence sur ces 6 créneaux lors de l'inscription.</p>
+                <p class="text-lg text-stone-600 max-w-2xl mx-auto">Plus d'informations suivront</p>
+            </div>
+
+
+            <div class="grid md:grid-cols-2 gap-12">
+                <!-- Samedi -->
+                <div>
+                    <h3 class="text-xs font-black text-amber-500 uppercase tracking-widest mb-8 flex items-center gap-4">
+                        Samedi 9 Mai <span class="h-[1px] flex-grow bg-amber-200"></span>
+                    </h3>
+                    <div class="grid gap-4">
+                        <div class="meal-card p-6 bg-white border border-stone-100 rounded-3xl flex justify-between items-center">
+                            <div>
+                                <h4 class="font-bold text-stone-800">Midi / Repas</h4>
+                                <p class="text-sm text-stone-500">Lancement des festivités</p>
+                                <p class="text-sm text-stone-500">Plus d'informations suivront</p>
+                            </div>
+                            <span class="text-xs font-bold bg-stone-100 px-3 py-1 rounded-full uppercase">Dès 12h00</span>
+                        </div>
+                        <div class="meal-card p-6 bg-white border border-stone-100 rounded-3xl flex justify-between items-center">
+                            <div>
+                                <h4 class="font-bold text-stone-800">Après-midi</h4>
+                                <p class="text-sm text-stone-500">Collation, jeux & détente</p>
+                                <p class="text-sm text-stone-500">Plus d'informations suivront</p>
+                            </div>
+                            <span class="text-xs font-bold bg-stone-100 px-3 py-1 rounded-full uppercase">Libre</span>
+                        </div>
+                        <div class="meal-card p-6 bg-pink-50 border border-pink-100 rounded-3xl flex justify-between items-center">
+                            <div>
+                                <h4 class="font-bold text-pink-700">Soir, Repas & Fête</h4>
+                                <p class="text-sm text-pink-600">Plus d'informations suivront</p>
+                                <p class="text-sm text-stone-500">Plus d'informations suivront</p>
+                            </div>
+                            <span class="text-xs font-bold bg-pink-500 text-white px-3 py-1 rounded-full uppercase">Dès 19h</span>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- Dimanche -->
+                <div>
+                    <h3 class="text-xs font-black text-pink-500 uppercase tracking-widest mb-8 flex items-center gap-4">
+                        Dimanche 10 Mai <span class="h-[1px] flex-grow bg-pink-200"></span>
+                    </h3>
+                    <div class="grid gap-4">
+                        <div class="meal-card p-6 bg-white border border-stone-100 rounded-3xl flex justify-between items-center">
+                            <div>
+                                <h4 class="font-bold text-stone-800">Matin & Repas</h4>
+                                <p class="text-sm text-stone-500">Petit-déjeuner & Brunch</p>
+                                <p class="text-sm text-stone-500">Plus d'informations suivront</p>
+                            </div>
+                            <span class="text-xs font-bold bg-stone-100 px-3 py-1 rounded-full uppercase">Matin</span>
+                        </div>
+                        <div class="meal-card p-6 bg-white border border-stone-100 rounded-3xl flex justify-between items-center">
+                            <div>
+                                <h4 class="font-bold text-stone-800">Midi & Repas</h4>
+                                <p class="text-sm text-stone-500">Dîner convivial</p>
+                                <p class="text-sm text-stone-500">Plus d'informations suivront</p>
+                            </div>
+                            <span class="text-xs font-bold bg-stone-100 px-3 py-1 rounded-full uppercase">12h30</span>
+                        </div>
+                        <div class="meal-card p-6 bg-white border border-stone-100 rounded-3xl flex justify-between items-center">
+                            <div>
+                                <h4 class="font-bold text-stone-800">Après-midi</h4>
+                                <p class="text-sm text-stone-500">Collation, jeux & détente</p>
+                                <p class="text-sm text-stone-500">Fin du week-end et rangement</p>
+                                
+                            </div>
+                            <span class="text-xs font-bold bg-stone-100 px-3 py-1 rounded-full uppercase">jusqu'à 17h00</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+<!-- Aide -->
+    <section id="concept" class="py-20 px-4 bg-white/50">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-16">
+                <h2 class="text-3xl md:text-4xl font-bold font-display text-stone-800 mb-4">Tu veux mettre à dispo tes talents ?</h2>
+                <p class="text-lg text-stone-600 max-w-2xl mx-auto">Si tu souhaites nous aider pour l'organisation, apporter quelque chose à manger ou à boire ...</p>
+                <p class="text-lg text-stone-600 max-w-2xl mx-auto">Si tu souhaites préparer des jeux ou des animations ...</p>
+                <p class="text-lg text-stone-600 max-w-2xl mx-auto">Contacte nous ou met un commentaire dans ton inscirption</p>
+            </div>
+
+
+
+
+    <section id="rsvp" class="py-20 px-4 bg-stone-800 text-white rounded-t-[3rem]">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-3xl md:text-4xl font-bold font-display mb-4">Inscription de ta tribu ✅</h2>
+            <p class="text-lg text-stone-300 mb-12">
+                Un seul formulaire par famille suffit !
+            </p>
+            <p class="text-lg text-stone-300 mb-12">
+                Délai de réponse : <span class="text-brand font-bold underline">25 avril 2026</span>
+            </p>
+
+
+            <div class="bg-stone-50 text-stone-800 rounded-3xl p-8 md:p-12 shadow-2xl text-left">
+                <h3 class="font-bold text-xl mb-8 flex items-center gap-3">
+                    <span class="bg-amber-100 p-2 rounded-lg text-lg">📝</span> Préparez vos informations :
+                </h3>
+                
+                <div class="grid sm:grid-cols-2 gap-8 mb-12">
+                    <div class="flex gap-4">
+                        <div class="text-brand font-black text-2xl">01</div>
+                        <div>
+                            <p class="font-bold">Accompagnants</p>
+                            <p class="text-sm text-stone-500">Nombre d'adultes et d'enfants.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="text-brand font-black text-2xl">02</div>
+                        <div>
+                            <p class="font-bold">Repas</p>
+                            <p class="text-sm text-stone-500">Cochez vos présences (6 repas).</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="text-brand font-black text-2xl">03</div>
+                        <div>
+                            <p class="font-bold">Hébergement</p>
+                            <p class="text-sm text-stone-500">Réservation de lits sur place.</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-4">
+                        <div class="text-brand font-black text-2xl">04</div>
+                        <div>
+                            <p class="font-bold">Régimes</p>
+                            <p class="text-sm text-stone-500">Allergies ou restrictions alimentaires.</p>
+                        </div>
+                    </div>
+                </div>
+
+
+                <a href="https://forms.gle/t3qC8NL1vfQeSRaLA" target="_blank" class="block w-full text-center py-5 rounded-2xl text-white font-bold text-xl btn-gradient">
+                    Ouvrir le Formulaire d'Inscription
+                </a>
+            </div>
+            
+            <p class="mt-16 text-xl text-stone-400">On a tellement hâte ! ❤️✨</p>
+            <p class="mt-16 text-xl text-stone-400">Contact pour l'organisation: +41 79 892 59 17</p>
+        </div>
+    </section>
+
+
+    <footer class="bg-stone-900 py-6 text-center text-stone-500 text-sm">
+        <p>Aurore 40 - 2026</p>
+    </footer>
+
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Countdown Logic
+            const targetDate = new Date("May 9, 2026 12:00:00").getTime();
+            function updateCountdown() {
+                const now = new Date().getTime();
+                const distance = targetDate - now;
+                const countdownEl = document.getElementById('countdown');
+                if (!countdownEl) return;
+
+
+                if (distance < 0) {
+                    countdownEl.innerHTML = "<div class='text-xl font-bold text-brand'>C'est parti ! 🎉</div>";
+                    return;
+                }
+
+
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+
+                countdownEl.innerHTML = `
+                    <div class="flex flex-col"><span class="text-3xl font-bold text-brand-dark">${days}</span><span class="text-[10px] uppercase">Jours</span></div>
+                    <div class="text-3xl">:</div>
+                    <div class="flex flex-col"><span class="text-3xl font-bold text-brand-dark">${hours.toString().padStart(2, '0')}</span><span class="text-[10px] uppercase">Heures</span></div>
+                    <div class="text-3xl">:</div>
+                    <div class="flex flex-col"><span class="text-3xl font-bold text-brand-dark">${minutes.toString().padStart(2, '0')}</span><span class="text-[10px] uppercase">Min</span></div>
+                    <div class="text-3xl">:</div>
+                    <div class="flex flex-col"><span class="text-3xl font-bold text-brand-accent">${seconds.toString().padStart(2, '0')}</span><span class="text-[10px] uppercase">Sec</span></div>
+                `;
+            }
+            setInterval(updateCountdown, 1000);
+            updateCountdown();
+
+
+            // Vibe Chart Logic
+            const canvas = document.getElementById('vibeChart');
+            if (canvas) {
+                const ctx = canvas.getContext('2d');
+                new Chart(ctx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Rires 💬', 'Manger 🍕', 'Trinquer 🥂', 'Danser 💃'],
+                        datasets: [{
+                            data: [35, 25, 20, 20],
+                            backgroundColor: ['#f59e0b', '#fbbf24', '#fcd34d', '#ec4899'],
+                            borderWidth: 2,
+                            borderColor: '#ffffff'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        cutout: '70%',
+                        plugins: { legend: { position: 'bottom' } }
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
